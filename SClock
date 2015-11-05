@@ -1,0 +1,29 @@
+module Sclk(input wire clk,reset,enable,
+					output wire sclock
+					);
+									
+		reg [1:0] cuenta = 0;
+		reg temporal = 0;
+		
+		always@(posedge clk)
+		if (reset) begin
+			cuenta <= 2'b0;
+			temporal <= 0;
+			end
+			
+		else if (enable) begin
+			if (cuenta==3'd3)  // para generar un sclock de 12.5 MHz
+				begin
+				temporal <= ~temporal;
+				cuenta <= 0;
+				end
+				
+			else
+			 cuenta <=cuenta + 1'b1;
+			 
+		 end
+		 
+assign sclock = (temporal);
+
+
+endmodule
