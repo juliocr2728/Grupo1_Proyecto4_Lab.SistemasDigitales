@@ -1,0 +1,21 @@
+module Muestreo(input wire clk, reset,
+					output wire cincoms
+    );
+
+
+		reg [18:0] cuenta;//25
+		//Controla las cuentas de segundos a la frecuencia que se indique
+		always@(posedge clk)
+		if (reset|cincoms)
+			cuenta=19'b0;
+			
+		else
+		 cuenta=cuenta+1'd1;
+
+		 
+		assign cincoms=(cuenta==19'h7A120);//5ms/250000
+
+
+
+endmodule
+
