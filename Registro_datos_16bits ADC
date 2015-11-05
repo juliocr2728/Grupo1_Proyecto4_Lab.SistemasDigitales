@@ -1,0 +1,24 @@
+module Registro_Serie_Paralelo(
+
+input wire clk, reset, enable,
+									input wire entrada,
+									output wire [15:0] salida
+									);
+									
+reg [15:0] d_pres;
+wire [15:0] d_prox;
+
+always @(negedge clk, posedge reset)
+	if (reset)
+		d_pres <= 0;
+	else if (enable)
+		d_pres <= d_prox;
+	else
+		d_pres <= d_pres;
+
+assign d_prox = {d_pres[14:0],entrada};
+
+assign salida = d_pres;
+
+
+endmodule
