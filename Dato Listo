@@ -1,0 +1,19 @@
+module Dato_Listo(input wire sclock,reset,enable,
+					output wire dato
+					);
+									
+		reg [4:0] cuenta;
+		
+		always@(negedge sclock)
+		if (reset)
+			cuenta=5'b0;
+			
+		else if (enable)
+		 cuenta=cuenta+1'b1;
+		 
+		else
+		 cuenta=cuenta;
+		 
+		assign dato=(cuenta==5'd17);
+		
+endmodule
