@@ -1,0 +1,15 @@
+module Salida_8Bits(
+   input wire clk,reset,enable,
+						input wire [15:0] data,
+						output reg [7:0] yk);
+
+					always @(posedge clk, posedge reset)
+					
+						if(reset)
+							yk <= 0;
+						else if (enable)
+							yk <= data[12:5];
+
+
+endmodule
+
