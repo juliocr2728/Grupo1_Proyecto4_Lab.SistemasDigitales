@@ -1,0 +1,22 @@
+module Modulo_ADC(input wire clk, reset, entrada,
+							output wire sclock, CS,datolisto,
+							output wire [7:0] yk
+							);
+
+wire cincoms;//tiempo de muestreo
+wire [15:0] datocomp;//16 bits que toma el ADC
+
+
+
+Sclk SCLOCK( .clk(clk), .reset(reset), .enable(1'b1), .sclock(sclock));//genera frecuencia a la que trabaja ADC
+Muestreo TMUESTRA(.clk(clk), .reset(reset), .cincoms(cincoms));//controla el tiempo de muestreo
+Registro_Serie_Paralelo SERIEPARALELO(.clk(sclock), .reset(reset), .enable(~CS), .entrada(entrada), .salida(datocomp));//toma los 16 bits que entran en serie y los saca paralelo
+Salida_8Bits OCHOBPARALELO(.clk(clk),.reset(reset), .enable(datolisto), .data(datocomp),.yk(yk));//toma los 8 bits de interes
+Dato_Listo DATOLISTO(.sclock(sclock), .reset(reset|CS),.enable(1'b1), .dato(datolisto));//indica cuando se tiene un nuevo dato
+cs SECS(.S(datolisto),.R(cincoms), .clk(clk), .reset(reset),.CS(CS));//genera señal de control CS para ADC
+
+
+
+
+
+endmodule
