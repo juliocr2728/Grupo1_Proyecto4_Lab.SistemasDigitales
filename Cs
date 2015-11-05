@@ -1,0 +1,13 @@
+module cs(input wire S,R, clk,reset,
+					output reg CS);
+
+				
+		always @ (posedge clk, posedge reset)
+			if(reset)
+				CS <= 1'b1;
+			else
+				CS <= S || (~R&&CS);
+
+
+endmodule
+
