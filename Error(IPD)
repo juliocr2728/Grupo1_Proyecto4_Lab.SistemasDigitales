@@ -1,0 +1,29 @@
+module Error(
+
+            input wire dato,clk,
+				input wire [7:0] Ref, yk,
+				output wire signed [13:0] ek,
+				output wire ek_listo
+    );
+
+
+reg signed [13:0] e_actual= 0;
+reg estado = 0;
+
+always @ (posedge clk)
+	if (dato)
+		begin
+		e_actual <= (Ref-8'd128) - (yk - 8'd128);
+		estado <= 1;
+		end
+	else
+	begin
+		estado <=0;
+		e_actual <= e_actual;
+	end
+	
+assign ek_listo = estado;		
+assign ek = e_actual;
+
+endmodule
+
