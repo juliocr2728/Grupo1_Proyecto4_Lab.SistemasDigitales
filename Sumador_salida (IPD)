@@ -1,0 +1,28 @@
+module Sumador_IPD #(parameter  N= 23)
+						  (
+                     input wire clk, IPD_ready,
+							input wire signed [N:0] I, P, D,
+							output wire lista_suma,
+							output wire signed [N:0] IPD
+    );
+
+reg signed [N:0] IPD_temporal = 0;
+reg estado= 0;
+
+always @ (posedge clk)
+	if (IPD_ready)
+		begin
+		IPD_temporal <= I -P -D;
+		estado<= 1;
+		end
+	else
+	begin
+		estado<= 0;
+		IPD_temporal <= IPD_temporal;
+	end
+
+
+assign lista_suma= estado;		
+assign IPD = IPD_temporal;
+
+endmodule
