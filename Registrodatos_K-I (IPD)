@@ -1,0 +1,26 @@
+module Registro_datos  #(parameter  N= 23, Y=7 ) 
+
+          (
+                  input wire clk,reset,ready_IPD,
+						input wire signed [N:0] I,
+						input wire [Y:0] yk,
+						output reg signed [N:0] i_menos1,
+						output reg [Y:0] yk_menos1
+						
+			);
+
+					always @(posedge clk, posedge reset)
+					
+						if(reset)
+							begin
+								i_menos1 <= 0;
+								yk_menos1 <= 0;
+							end
+						else if (ready_IPD)
+							begin
+								i_menos1 <= I;
+								yk_menos1 <= yk;
+							end
+
+
+endmodule
