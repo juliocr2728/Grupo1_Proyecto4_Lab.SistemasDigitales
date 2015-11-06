@@ -1,0 +1,18 @@
+module Modulo_PWM(
+    input wire clk, reset,
+    input wire [7:0] entrada_PWM,
+    output salida_PWM
+);
+		
+			reg [7:0] contador;
+			
+			always @(posedge  clk, posedge reset)
+				if(reset)
+					contador <= 8'd0;
+				else
+					contador<=contador + 1'd1;
+					
+
+assign salida_PWM = (entrada_PWM>contador);  // comparador
+
+endmodule
