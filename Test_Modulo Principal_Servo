@@ -1,0 +1,50 @@
+
+module Prueba_Servomotor;
+
+	// Inputs
+	reg clk;
+	reg reset;
+	reg entrada;
+	reg [7:0] REF;
+
+	// Outputs
+	wire sclock;
+	wire CS;
+	wire PWM_out;
+	wire [7:0] yk;
+
+	// Instantiate the Unit Under Test (UUT)
+	Modulo_Principal_Servomotor uut (
+		.clk(clk), 
+		.reset(reset), 
+		.entrada(entrada), 
+		.REF(REF), 
+		.sclock(sclock), 
+		.CS(CS), 
+		.PWM_out(PWM_out), 
+		.yk(yk)
+	);
+
+	initial begin
+		// Initialize Inputs
+		clk = 0;
+		reset = 1;
+		entrada = 0;
+		REF= 8'b01111100;
+
+		// Wait 100 ns for global reset to finish
+		#100;
+        #100;
+		#10 reset = 0;
+		#10000800 entrada = 1;
+		#100 entrada = 0;
+		#800 entrada=1;
+		// Add stimulus here
+
+	end
+	initial
+				forever
+			#10 clk=~clk;
+      
+endmodule
+
