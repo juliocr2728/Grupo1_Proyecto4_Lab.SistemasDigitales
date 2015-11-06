@@ -1,0 +1,47 @@
+
+module Test_ADC;
+
+	// Inputs
+	reg clk;
+	reg reset;
+	reg entrada;
+
+	// Outputs
+	wire sclock;
+	wire CS;
+	wire datolisto;
+	wire [7:0] yk;
+
+	// Instantiate the Unit Under Test (UUT)
+	Modulo_ADC uut (
+		.clk(clk), 
+		.reset(reset), 
+		.entrada(entrada), 
+		.sclock(sclock), 
+		.CS(CS), 
+		.datolisto(datolisto), 
+		.yk(yk)
+	);
+
+	initial begin
+		// Initialize Inputs
+		clk = 0;
+		reset = 1;
+		entrada = 0;
+
+		// Wait 100 ns for global reset to finish
+		#100;
+		#10 reset = 0;
+		#10000800 entrada = 1;
+		#10080000 entrada = 0;
+		#10000800 entrada = 1;
+	
+        
+		// Add stimulus here
+
+	end
+	initial forever #10 clk=~clk;
+      
+endmodule
+
+
