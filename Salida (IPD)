@@ -1,0 +1,22 @@
+module Dato_Salida  #(parameter  N= 23, I=7 ) 
+
+(
+							input wire signed [N:0] IPD,
+							output wire [I:0] IPDesc
+							);
+
+reg signed [N:0] IPD_parcial1 = 0;
+reg signed [N:0] IPD_parcial2 = 0;
+ 
+
+always @* begin
+	IPD_parcial1 = ((IPD)/(3520));//24'd64033);
+ 
+		IPD_parcial2 = IPD_parcial1;
+		
+end
+
+ 
+assign IPDesc = IPD_parcial2[I:0];	
+
+endmodule
