@@ -1,0 +1,49 @@
+module FSM_Control(input wire clk, reset, listodato,listoek,listoIPD,listosumaIPD,//cincoms,
+						 output wire e0, e1 , e2, e3
+    );
+
+localparam [2:0] s0 = 3'b000,
+					  s1 = 3'b001,
+					  s2 = 3'b010,
+					  s3 = 3'b011,
+					  s4 = 3'b100;
+					  
+reg [2:0] estado_actual, estado_siguiente;
+
+always @(posedge clk, posedge reset)
+	if (reset)
+		estado_actual <= s0;
+	else
+		estado_actual <= estado_siguiente;
+
+always@*
+	case(estado_actual)
+		s0: if(listodato)
+				estado_siguiente = s1;
+			else
+				estado_siguiente = s0;
+		s1: if(listoek)
+				estado_siguiente = s2;
+			else
+				estado_siguiente = s1;
+		s2: if(listoIPD)
+				estado_siguiente = s3;
+			else
+				estado_siguiente = s2;
+		s3: if(listosumaIPD)
+				estado_siguiente = s4;
+			else
+				estado_siguiente = s3;
+		s4: if (~listodato)
+				estado_siguiente = s0;
+			else
+				estado_siguiente = s4;
+		default: estado_siguiente = s0;
+	endcase
+	
+assign e0 = ((estado_actual==s0) & listodato);
+assign e1 = ((estado_actual==s1) & listoek);
+assign e2 = ((estado_actual==s2) & listoIPD);
+assign e3 = (estado_actual==s3) & listosumaIPD;
+		
+endmodule
