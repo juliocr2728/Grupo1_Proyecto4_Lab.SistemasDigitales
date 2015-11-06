@@ -1,0 +1,46 @@
+module Contro_IPD #(parameter  N= 23, Y=7 )  // N representa el tamaño de los registros de las operaciones y Y el de los registros y
+	( 
+            input wire ek_listo,clk,
+				input wire signed [13:0] ek, 
+				input wire [Y:0] yk, yk_menos1,
+				input wire signed [N:0] I_menos1,
+				output wire signed [N:0] I, 
+				output wire signed [N:0] P, 
+				output wire signed [N:0] D,
+				output wire ready_IPD
+    );
+
+															//Constantes de las Operaciones
+localparam signed [Y:0] KI = 8'd14;
+localparam [Y:0] KP = 8'd36;
+localparam [8:0] KD = 9'd300;
+
+															//Registro de las operaciones , inicializados en cero
+reg signed [N:0] temporal_I= 0;
+reg signed [N:0] temporal_P= 0;
+reg signed [N:0] temporal_D= 0;
+
+reg estado = 0;
+
+always @ (posedge clk)
+	if (ek_listo)
+		begin
+		temporal_I <= (KI*ek)+I_menos1;
+		temporal_P <= KP*(yk-8'd128);
+		temporal_D <= KD*((yk-8'd128)-(yk_menos1-8'd128));
+		estado <= 1;
+		end
+	else
+	begin
+		estado <=0;
+		temporal_I <= temporal_I;
+		temporal_P <= temporal_P;
+		temporal_D <= temporal_D;
+	end
+
+assign ready_IPD = estado;		
+assign I = temporal_I;
+assign P = temporal_P;
+assign D = temporal_D;
+
+endmodule
