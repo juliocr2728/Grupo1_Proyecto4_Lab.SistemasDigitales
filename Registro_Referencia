@@ -1,0 +1,26 @@
+module ModuloReferencia #(parameter N = 8)
+(
+		input wire [N-1:0] In,
+		input wire reset, clk, Habilitador,
+		output wire [N-1:0] Out
+    );
+
+reg [N-1:0] Reg;
+
+//initial begin Reg={size{1'b0}}; end
+
+
+//BODY
+always @(posedge clk , posedge reset)
+begin
+	if (reset) begin     //si se activa el reset todas las entradas se inicializan
+		Reg <= {N{1'b0}};
+	end
+	else if (Habilitador) begin    //sino el enable de la maquina de estados activa la lectura de          //las diferentes entradas
+		Reg <= In;
+	end
+end
+
+assign Out=Reg;
+
+endmodule 
