@@ -13,7 +13,7 @@ module Muestreo(input wire clk, reset,
 		 cuenta=cuenta+1'd1;
 
 		 
-		assign cincoms=(cuenta==18'h3D090);//5ms/250000 / 200Hz
+		assign cincoms=(cuenta==18'h3D08f);//5ms/250000 / 200Hz
 
 
 
