@@ -1,0 +1,33 @@
+module Modulo_Principal_Servomotor(
+
+                     input wire clk, reset, entrada, Habilitador,//entrada desde planta
+							input wire Angulob0,Angulob1,Angulob2,Angulob3,Angulob4,Angulob5,Angulob6,Angulob7,
+							output wire sclock, CS,//sclock y CS para ADC
+							output wire PWM_out,//Salida de PWM a CAS2
+							output wire yk0,yk1,yk2,yk3,yk4,yk5,yk6,yk7
+							
+    );
+wire [7:0] yk; //Salida del ADC
+wire [7:0] REF = {Angulob7,Angulob6,Angulob5,Angulob4,Angulob3,Angulob2,Angulob1,Angulob0};//concatencion para formar numero de angulo
+wire [7:0] sal_REF;
+wire [7:0] salida_IPD;//yk es la posicion del motor
+wire listodato;
+
+
+ModuloReferencia Registro_REF (.In(REF), .reset(reset), .clk(clk), .Habilitador(Habilitador),.Out(sal_REF)); // Se crea un modulo tipo registro para los 8 bits de Referencia
+
+Modulo_ADC ADC(.clk(clk), .reset(reset), .entrada(entrada),.sclock(sclock), .CS(CS),.datolisto(listodato),.yk(yk));//Modulo de recepcion de datos del ADC
+Modulo_IPD IPD(.clk(clk), .reset(reset),.listodato(listodato),.yk(yk), .REF(sal_REF),.salida_IPD(salida_IPD));//Modulo que calcula el IPD
+Modulo_PWM PWM(.clk(clk), .reset(reset), .entrada_PWM(salida_IPD),.salida_PWM(PWM_out));
+
+assign yk0 = yk[0];
+assign yk1 = yk[1];
+assign yk2 = yk[2];
+assign yk3 = yk[3];
+assign yk4 = yk[4];
+assign yk5 = yk[5];
+assign yk6 = yk[6];
+assign yk7 = yk[7];
+
+
+endmodule
