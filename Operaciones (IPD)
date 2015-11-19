@@ -26,8 +26,8 @@ always @ (posedge clk)
 	if (ek_listo)
 		begin
 		temporal_I <= (KI*ek)+I_menos1;
-		temporal_P <= KP*(yk-8'd128);
-		temporal_D <= KD*((yk-8'd128)-(yk_menos1-8'd128));
+		temporal_P <= KP*(yk-9'd256);
+		temporal_D <= KD*((yk-9'd256)-(yk_menos1-9'd256));
 		estado <= 1;
 		end
 	else
