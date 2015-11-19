@@ -1,0 +1,35 @@
+module Clock_PWM(clk,reset,clk_div);
+	 
+	 input wire clk;
+    input wire reset;
+    output reg clk_div;
+     
+	//Número de ciclos
+	localparam constante = 19;
+	 
+	reg [4:0] contador = 0;
+	 
+	 
+	//Contador
+	always @ (posedge(clk), posedge(reset))
+	begin
+		 if (reset == 1'b1)
+			  contador <= 4'b0;
+		 else if (contador == constante - 1'b1)
+			  contador <= 4'b0;
+		 else
+			  contador <= contador + 1'b1;
+	end
+	
+	//Divisor
+	always @ (posedge(clk), posedge(reset))
+	begin
+		 if (reset == 1'b1)
+			  clk_div <= 1'b0;
+		 else if (contador == constante - 1'b1)
+			  clk_div <= ~clk_div;
+		 else
+			  clk_div <= clk_div;
+	end
+	 
+endmodule	
