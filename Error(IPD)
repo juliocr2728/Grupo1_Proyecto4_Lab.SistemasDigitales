@@ -13,7 +13,7 @@ reg estado = 0;
 always @ (posedge clk)
 	if (dato)
 		begin
-		e_actual <= (Ref-8'd128) - (yk - 8'd128);
+		e_actual <= (Ref-8'd256) - (yk - 8'd256);
 		estado <= 1;
 		end
 	else
